@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="BointApp/App.axaml" value="BointApp/BointApp.csproj" />
+        <entry key="BointApp/Views/HomePageView.axaml" value="BointApp/BointApp.csproj" />
+        <entry key="BointApp/Views/HomePageViewModel.axaml" value="BointApp/BointApp.csproj" />
+        <entry key="BointApp/Views/MainWindow.axaml" value="BointApp/BointApp.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
