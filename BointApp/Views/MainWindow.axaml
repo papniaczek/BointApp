@@ -95,6 +95,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type vm:ListItemTemplate}">
                             <StackPanel Spacing="15" Orientation="Horizontal">
+                                <ToolTip.Tip>
+                                    <TextBlock Text="{Binding Label}" />
+                                </ToolTip.Tip>
                                 <PathIcon Margin="-3 2 0 0 " Data="{Binding ListItemIcon}" />
                                 <TextBlock Padding="0 4 0 0" Text="{Binding Label}" />
                             </StackPanel>
@@ -159,7 +162,7 @@
                 <Border Grid.Row="1"
                         CornerRadius="15 0 0 0"
                         Background="#111315">
-                    <TransitioningContentControl Padding="20" Content="{Binding CurrentPage}" />
+                    <TransitioningContentControl Content="{Binding CurrentPage}" />
                 </Border>
             </Grid>
         </SplitView.Content>
