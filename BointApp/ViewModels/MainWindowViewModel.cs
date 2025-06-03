@@ -10,14 +10,28 @@ namespace BointApp.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    [ObservableProperty]
-    private bool _isPaneOpen = true;
-
-    [ObservableProperty]
-    private ViewModelBase _currentPage = new HomePageViewModel();
+    [ObservableProperty] private bool _isPaneOpen = true;
+    //[ObservableProperty] private ViewModelBase _currentPage = new HomePageViewModel();
+    [ObservableProperty] private ListItemTemplate? _selectedListItem;
     
-    [ObservableProperty]
-    private ListItemTemplate? _selectedListItem;
+    private ViewModelBase _currentPage = new HomePageViewModel();
+    public ViewModelBase CurrentPage
+    {
+        get => _currentPage;
+        set
+        {
+            if (_currentPage != value)
+            {
+                _currentPage = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public void GoToUserPage()
+    {
+        CurrentPage = new UserPageViewModel();
+    }
     
     partial void OnSelectedListItemChanged(ListItemTemplate? value)
     {
@@ -32,15 +46,15 @@ public partial class MainWindowViewModel : ViewModelBase
         new ListItemTemplate(typeof(HomePageViewModel), "HomeRegular"),
         new ListItemTemplate(typeof(BikesPageViewModel), "VehicleBicycleRegular"),
         new ListItemTemplate(typeof(StationsPageViewModel), "MapRegular"),
-        new ListItemTemplate(typeof(UserPageViewModel), "PersonRegular"),
         new ListItemTemplate(typeof(SettingsPageViewModel), "SettingsRegular")
     };
 
-    [RelayCommand]
-    private void TriggerPane()
+    [RelayCommand] private void TriggerPane()
     {
         IsPaneOpen = !IsPaneOpen;
     }
+    
+    
 }
 
 public class ListItemTemplate
