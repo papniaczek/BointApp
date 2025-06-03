@@ -18,7 +18,7 @@ public partial class MainWindowViewModel : ViewModelBase
     
     [ObservableProperty]
     private ListItemTemplate? _selectedListItem;
-
+    
     partial void OnSelectedListItemChanged(ListItemTemplate? value)
     {
         if (value is null) return;

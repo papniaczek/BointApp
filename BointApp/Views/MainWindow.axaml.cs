@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using BointApp.ViewModels;
 
 namespace BointApp.Views;
 

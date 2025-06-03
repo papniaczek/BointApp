@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:bointApp="clr-namespace:BointApp"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="500"
         x:Class="BointApp.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/boint-logo.ico"
@@ -25,9 +25,23 @@
         <SplitView.Pane>
             <StackPanel Spacing="5"
                         Margin="5">
-                <Button Command="{Binding TriggerPaneCommand}" Cursor="Hand">
-                    <PathIcon Data="{StaticResource LineHorizontal3Regular}"></PathIcon>
-                </Button>
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Image Source="../Assets/logo_white.png"
+                           Grid.Column="0"
+                           Width="80" 
+                           IsVisible="{Binding IsPaneOpen}"/>
+                    <Button Command="{Binding TriggerPaneCommand}" 
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            Cursor="Hand">
+                        <PathIcon Data="{StaticResource LineHorizontal3Regular}"></PathIcon>
+                    </Button>
+                </Grid>
                 <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedListItem}" Cursor="Hand">
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type vm:ListItemTemplate}">
@@ -40,6 +54,7 @@
                 </ListBox>
             </StackPanel>
         </SplitView.Pane>
+        
         <SplitView.Content>
             <Border CornerRadius="12 0 0 0"
                     Background="#2d2d2d">

@@ -11,6 +11,6 @@
   
     <Application.Styles>
         <FluentTheme />
-        <StyleInclude Source="Assets/Icons.axaml"></StyleInclude>
+        <StyleInclude Source="avares://BointApp/Assets/Icons.axaml"></StyleInclude>
     </Application.Styles>
 </Application>
