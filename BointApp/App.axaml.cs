@@ -4,6 +4,7 @@ using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
+using BointApp.Models;
 using BointApp.ViewModels;
 using BointApp.Views;
 
@@ -15,11 +16,14 @@ public partial class App : Application
     {
         AvaloniaXamlLoader.Load(this);
     }
+    
+    public static AppContext Context { get; private set; } = null!;
 
     public override void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            Context = new AppContext();
             // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
             // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
             DisableAvaloniaDataAnnotationValidation();
