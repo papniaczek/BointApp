@@ -20,6 +20,7 @@ public class DataStore
     public void RemoveStation(Station station) => _stations.Remove(station);
     public void RemoveUser(User user) => _users.Remove(user);
     
-    public IEnumerable<Bike> GetAvailableBikes() => _bikes.FindAll(b => b.IsAvailable == false);
+    public IEnumerable<Bike> GetAvailableBikes() => _bikes.FindAll(b => b.IsAvailable);
+    public IEnumerable<Station> GetAvailableStations() => _stations.FindAll(s => s.Blocked == false);
     public IEnumerable<Station> GetBlockedStations() => _stations.FindAll(s => s.Blocked);
 }
