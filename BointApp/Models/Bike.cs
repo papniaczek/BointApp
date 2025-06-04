@@ -14,7 +14,6 @@ public abstract class Bike
     }
     
     public abstract decimal CostPerHour { get; }
-    public abstract decimal CalculateRentalCost(TimeSpan duration);
 
     public virtual void MarkAsRented()
     {

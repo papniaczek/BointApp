@@ -12,9 +12,4 @@ public class CityBike : Bike
     }
 
     public override decimal CostPerHour => 15.0m;
-
-    public override decimal CalculateRentalCost(TimeSpan duration)
-    {
-        return (decimal)duration.TotalHours * CostPerHour;
-    }
 }

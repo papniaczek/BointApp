@@ -13,11 +13,6 @@ public class ElectricBike : Bike
 
     public override decimal CostPerHour => 30.0m;
 
-    public override decimal CalculateRentalCost(TimeSpan duration)
-    {
-        return (decimal)duration.TotalHours * CostPerHour;
-    }
-
     public override void MarkAsRented()
     {
         if (BatteryLevel < 20) throw new Exception("Rental is impossible - Battery level is too low");
