@@ -34,19 +34,24 @@
                                FontWeight="700"
                                HorizontalAlignment="Center"
                                Margin="0 25 0 0">
-                        ROWERY
+                        BIKES
                     </TextBlock>
                     <TextBlock Text="{Binding NumberOfBikes}" 
                         HorizontalAlignment="Center"
                         FontSize="90"
                         FontWeight="900"
-                        Margin="0 40 0 35" 
+                        Margin="0 50 0 40" 
                         Foreground="#ff6a55" >84</TextBlock>
-                    <StackPanel Margin="20 0">
-                        <StackPanel HorizontalAlignment="Left">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Center" Margin="0 0 60 0">
                             <TextBlock FontSize="12">City bikes: </TextBlock>
                             <TextBlock FontSize="12">Mountain bikes: </TextBlock>
                             <TextBlock FontSize="12">Electric bikes: </TextBlock>
+                        </StackPanel>
+                        <StackPanel >
+                            <TextBlock HorizontalAlignment="Right" FontSize="12" Foreground="#ff6a55" Text="{Binding NumberOfCityBikes}">20</TextBlock>
+                            <TextBlock HorizontalAlignment="Right" FontSize="12" Foreground="#ff6a55" Text="{Binding NumberOfMountainBikes}">21</TextBlock>
+                            <TextBlock HorizontalAlignment="Right" FontSize="12" Foreground="#ff6a55" Text="{Binding NumberOfElectricBikes}">23</TextBlock>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
@@ -56,6 +61,30 @@
                     Background="#1a1c1e"
                     CornerRadius="15"
                     Margin="10">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock FontSize="25"
+                               FontWeight="700"
+                               HorizontalAlignment="Center"
+                               Margin="0 25 0 0">
+                        STATIONS
+                    </TextBlock>
+                    <TextBlock Text="{Binding NumberOfStations}" 
+                               HorizontalAlignment="Center"
+                               FontSize="90"
+                               FontWeight="900"
+                               Margin="0 50 0 50" 
+                               Foreground="#ff6a55" >13</TextBlock>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Center" Margin="0 0 80 0">
+                            <TextBlock FontSize="12">Blocked: </TextBlock>
+                            <TextBlock FontSize="12">Unblocked: </TextBlock>
+                        </StackPanel>
+                        <StackPanel >
+                            <TextBlock HorizontalAlignment="Right" FontSize="12" Foreground="#ff6a55" Text="{Binding NumberOfBlockedStations}">20</TextBlock>
+                            <TextBlock HorizontalAlignment="Right" FontSize="12" Foreground="#ff6a55" Text="{Binding NumberOfUnblockedStations}">21</TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
             </Border>
         </Grid>
     </Grid>

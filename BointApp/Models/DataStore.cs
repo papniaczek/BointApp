@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BointApp.Models;
 
@@ -21,6 +22,10 @@ public class DataStore
     public void RemoveUser(User user) => _users.Remove(user);
     
     public IEnumerable<Bike> GetAvailableBikes() => _bikes.FindAll(b => b.IsAvailable);
+    public IEnumerable<CityBike> GetAllCityBikes() => _bikes.OfType<CityBike>().ToList();
+    public IEnumerable<MountainBike> GetAllMountainBikes() => _bikes.OfType<MountainBike>().ToList();
+    public IEnumerable<ElectricBike> GetAllElectricBikes() => _bikes.OfType<ElectricBike>().ToList();
     public IEnumerable<Station> GetAvailableStations() => _stations.FindAll(s => s.Blocked == false);
     public IEnumerable<Station> GetBlockedStations() => _stations.FindAll(s => s.Blocked);
+    public IEnumerable<Station> GetUnblockedStations() => _stations.FindAll(s => s.Blocked == false);
 }

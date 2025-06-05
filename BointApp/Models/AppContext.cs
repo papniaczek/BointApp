@@ -7,7 +7,5 @@ public class AppContext
     public AppContext()
     {
         DataStore = new DataStore();
-        
-        DataStore.AddBike(new CityBike("Giant") { HasBasket = true });
     }
 }
