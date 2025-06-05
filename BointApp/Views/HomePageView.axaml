@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="980" d:DesignHeight="670"
+             mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="730"
              xmlns:vm="using:BointApp.ViewModels"
              x:DataType="vm:HomePageViewModel"
              x:Class="BointApp.Views.HomePageView">
@@ -13,10 +13,24 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
+        <!-- Left -->
         <Border Grid.Column="0"
                 Background="#1a1c1e"
                 CornerRadius="15"
                 Margin="10">
+            <Grid Margin="10" ShowGridLines="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="10*" />
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0" FontSize="25"
+                           FontWeight="700"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+                    LAST 10 ACTIVE RENTALS
+                </TextBlock>
+            </Grid>
         </Border>
         
         <Grid Grid.Column="1">
@@ -25,6 +39,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             
+            <!-- Right top -->
             <Border Grid.Row="0"
                     Background="#1a1c1e"
                     CornerRadius="15"
@@ -44,19 +59,20 @@
                         Foreground="#ff6a55" >84</TextBlock>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <StackPanel HorizontalAlignment="Center" Margin="0 0 60 0">
-                            <TextBlock FontSize="12">City bikes: </TextBlock>
-                            <TextBlock FontSize="12">Mountain bikes: </TextBlock>
+                            <TextBlock FontSize="12" Margin=" 0 0 0 4">City bikes: </TextBlock>
+                            <TextBlock FontSize="12" Margin="0 0 0 4">Mountain bikes: </TextBlock>
                             <TextBlock FontSize="12">Electric bikes: </TextBlock>
                         </StackPanel>
                         <StackPanel >
-                            <TextBlock HorizontalAlignment="Right" FontSize="12" Foreground="#ff6a55" Text="{Binding NumberOfCityBikes}">20</TextBlock>
-                            <TextBlock HorizontalAlignment="Right" FontSize="12" Foreground="#ff6a55" Text="{Binding NumberOfMountainBikes}">21</TextBlock>
+                            <TextBlock Margin="0 0 0 4" HorizontalAlignment="Right" FontSize="12" Foreground="#ff6a55" Text="{Binding NumberOfCityBikes}">20</TextBlock>
+                            <TextBlock Margin="0 0 0 4" HorizontalAlignment="Right" FontSize="12" Foreground="#ff6a55" Text="{Binding NumberOfMountainBikes}">21</TextBlock>
                             <TextBlock HorizontalAlignment="Right" FontSize="12" Foreground="#ff6a55" Text="{Binding NumberOfElectricBikes}">23</TextBlock>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </Border>
             
+            <!-- Right bottom -->
             <Border Grid.Row="1"
                     Background="#1a1c1e"
                     CornerRadius="15"
@@ -76,11 +92,11 @@
                                Foreground="#ff6a55" >13</TextBlock>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <StackPanel HorizontalAlignment="Center" Margin="0 0 80 0">
-                            <TextBlock FontSize="12">Blocked: </TextBlock>
+                            <TextBlock Margin="0 0 0 4" FontSize="12">Blocked: </TextBlock>
                             <TextBlock FontSize="12">Unblocked: </TextBlock>
                         </StackPanel>
                         <StackPanel >
-                            <TextBlock HorizontalAlignment="Right" FontSize="12" Foreground="#ff6a55" Text="{Binding NumberOfBlockedStations}">20</TextBlock>
+                            <TextBlock Margin="0 0 0 4" HorizontalAlignment="Right" FontSize="12" Foreground="#ff6a55" Text="{Binding NumberOfBlockedStations}">20</TextBlock>
                             <TextBlock HorizontalAlignment="Right" FontSize="12" Foreground="#ff6a55" Text="{Binding NumberOfUnblockedStations}">21</TextBlock>
                         </StackPanel>
                     </StackPanel>

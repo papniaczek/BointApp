@@ -31,6 +31,7 @@ public partial class MainWindowViewModel : ViewModelBase
     public void GoToUserPage()
     {
         CurrentPage = new UserPageViewModel();
+        SelectedListItem = null;
     }
     
     partial void OnSelectedListItemChanged(ListItemTemplate? value)
