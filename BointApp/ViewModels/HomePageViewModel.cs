@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using BointApp.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -22,13 +19,13 @@ public partial class HomePageViewModel : ViewModelBase
     {
         var dataStore = App.Context.DataStore;
         
-        NumberOfBikes = dataStore.Bikes != null ? dataStore.Bikes.Count.ToString() : "0";
-        NumberOfCityBikes = dataStore.GetAllCityBikes() != null ? dataStore.GetAllCityBikes().Count().ToString() : "0";
-        NumberOfMountainBikes = dataStore.GetAllMountainBikes() != null ? dataStore.GetAllMountainBikes().Count().ToString() : "0";
-        NumberOfElectricBikes = dataStore.GetAllElectricBikes() != null ? dataStore.GetAllElectricBikes().Count().ToString() : "0";
+        NumberOfBikes = dataStore.Bikes.Count.ToString();
+        NumberOfCityBikes = dataStore.GetAllCityBikes().Count().ToString();
+        NumberOfMountainBikes = dataStore.GetAllMountainBikes().Count().ToString();
+        NumberOfElectricBikes = dataStore.GetAllElectricBikes().Count().ToString();
         
-        NumberOfStations = dataStore.Stations != null ? dataStore.Stations.Count.ToString() : "0";
-        NumberOfBlockedStations = dataStore.GetBlockedStations() != null ? dataStore.GetBlockedStations().Count().ToString() : "0";
-        NumberOfUnblockedStations = dataStore.GetUnblockedStations() != null ? dataStore.GetUnblockedStations().Count().ToString() : "0";
+        NumberOfStations = dataStore.Stations.Count.ToString();
+        NumberOfBlockedStations = dataStore.GetBlockedStations().Count().ToString();
+        NumberOfUnblockedStations = dataStore.GetUnblockedStations().Count().ToString();
     }
 }

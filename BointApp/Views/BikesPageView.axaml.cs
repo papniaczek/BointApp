@@ -1,9 +1,8 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 
 namespace BointApp.Views;
 
+// UWAGA: Zmieniliśmy nazwę klasy
 public partial class BikesPageView : UserControl
 {
     public BikesPageView()

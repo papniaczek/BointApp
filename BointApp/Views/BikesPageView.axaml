@@ -2,7 +2,62 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BointApp.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="BointApp.Views.BikesPageView">
-    Bikes
+             x:Class="BointApp.Views.BikesPageView"
+             x:DataType="vm:BikesPageViewModel">
+    <Grid RowDefinitions="Auto, *" Margin="20">
+        <TextBlock Grid.Row="0" Text="Zarządzaj Rowerami" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20"/>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*, Auto">
+            
+            <ListBox Grid.Column="0" ItemsSource="{Binding Bikes}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="#333" BorderThickness="0,0,0,1" Padding="10">
+                            <Grid ColumnDefinitions="2*, 1.5*, 1*, 1*, Auto" ColumnSpacing="10" VerticalAlignment="Center">
+                                
+                                <TextBlock Grid.Column="0" Text="{Binding Brand}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Converter={StaticResource PageNameConverter}}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding CostPerHour, StringFormat={}{0:C}}" VerticalAlignment="Center"/>
+                                
+                                <CheckBox Grid.Column="3" IsChecked="{Binding IsAvailable}" IsEnabled="False" VerticalAlignment="Center"/>
+
+                                <Button Grid.Column="4" Content="Usuń"
+                                        Command="{Binding $parent[ListBox].DataContext.RemoveBikeCommand}"
+                                        CommandParameter="{Binding}"
+                                        IsVisible="{Binding $parent[ListBox].DataContext.IsAdmin}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Border Grid.Column="1" Width="300" Margin="20,0,0,0" Padding="15"
+                    BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="1" CornerRadius="5"
+                    IsVisible="{Binding IsAdmin}">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Dodaj nowy rower" FontSize="18" FontWeight="SemiBold"/>
+                    <ComboBox SelectedIndex="{Binding SelectedBikeTypeIndex}">
+                        <ComboBoxItem Content="Rower Miejski"/>
+                        <ComboBoxItem Content="Rower Górski"/>
+                        <ComboBoxItem Content="Rower Elektryczny"/>
+                    </ComboBox>
+                    <TextBox Text="{Binding NewBikeBrand}" Watermark="Marka roweru"/>
+                    <StackPanel Spacing="5" IsVisible="{Binding SelectedBikeTypeIndex, Converter={StaticResource IndexToVisibilityConverter}, ConverterParameter=0}">
+                        <CheckBox IsChecked="{Binding NewCityBikeHasBasket}">Ma koszyk?</CheckBox>
+                    </StackPanel>
+                    <StackPanel Spacing="5" IsVisible="{Binding SelectedBikeTypeIndex, Converter={StaticResource IndexToVisibilityConverter}, ConverterParameter=1}">
+                        <TextBlock Text="Rozmiar koła (cale):"/>
+                        <NumericUpDown Value="{Binding NewMountainBikeWheelSize}" Minimum="20" Maximum="32"/>
+                    </StackPanel>
+                    <StackPanel Spacing="5" IsVisible="{Binding SelectedBikeTypeIndex, Converter={StaticResource IndexToVisibilityConverter}, ConverterParameter=2}">
+                        <TextBlock Text="Poziom baterii (%):"/>
+                        <NumericUpDown Value="{Binding NewElectricBikeBattery}" Minimum="0" Maximum="100"/>
+                    </StackPanel>
+                    <Button Content="Dodaj Rower" Command="{Binding AddBikeCommand}" HorizontalAlignment="Stretch"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
 </UserControl>

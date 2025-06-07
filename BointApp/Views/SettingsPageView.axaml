@@ -2,7 +2,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BointApp.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="BointApp.Views.SettingsPageView">
-    Settings Page
+             x:Class="BointApp.Views.SettingsPageView"
+             x:DataType="vm:SettingsPageViewModel">
+    <StackPanel Margin="20" Spacing="15">
+        <TextBlock Text="Ustawienia Aplikacji" FontSize="24" FontWeight="SemiBold"/>
+        
+        <TextBlock Text="Zmień bieżącego użytkownika:" Margin="0,20,0,0"/>
+        <ComboBox ItemsSource="{Binding Users}"
+                  SelectedItem="{Binding CurrentUser}"
+                  DisplayMemberBinding="{Binding FullName}"
+                  Width="300"
+                  HorizontalAlignment="Left"/>
+        
+        <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,10,0,0">
+            <TextBlock Text="Aktualnie zalogowany:"/>
+            <TextBlock Text="{Binding CurrentUser.FullName, FallbackValue='Brak'}" FontWeight="Bold"/>
+            <TextBlock Text="{Binding CurrentUser.Role, StringFormat='({0})', FallbackValue='()'}" FontWeight="Bold"/>
+        </StackPanel>
+        
+    </StackPanel>
 </UserControl>

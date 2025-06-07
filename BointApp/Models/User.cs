@@ -9,9 +9,10 @@ public class User
     public string Name { get; set; }
     public string Surname { get; set; }
     public string Email { get; set; }
+    public UserRole Role { get; set; }
     public List<Rental> RentalHistory { get; set; } = new();
 
-    public User(string name, string surname, string email)
+    public User(string name, string surname, string email, UserRole role = UserRole.User)
     {
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name cannot be null or whitespace.");
         if (string.IsNullOrWhiteSpace(surname)) throw new ArgumentException("Surname cannot be null or whitespace.");
@@ -20,5 +21,8 @@ public class User
         Name = name;
         Surname = surname;
         Email = email;
+        Role = role;
     }
+    
+    public string FullName => $"{Name} {Surname}";
 }

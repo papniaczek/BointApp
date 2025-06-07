@@ -14,6 +14,55 @@ public class DataStore
     public IReadOnlyList<Station> Stations => _stations.AsReadOnly();
     public IReadOnlyList<User> Users => _users.AsReadOnly();
     public IReadOnlyList<Rental> Rentals => _rentals.AsReadOnly();
+
+    public DataStore()
+    {
+        SeedInitialData();
+    }
+
+    private void SeedInitialData()
+    {
+        // Creating bikes
+        var bike1 = new CityBike("Kross Trans 1.0", true);
+        var bike2 = new CityBike("Romet Gazela 2", false);
+        var bike3 = new MountainBike("KTM Ultra Fun", 29);
+        var bike4 = new MountainBike("Scott Aspect 970", 27);
+        var bike5 = new ElectricBike("Haibike AllMtn 2", 95);
+        var bike6 = new ElectricBike("Ecobike S-Cross M", 70);
+
+        AddBike(bike1);
+        AddBike(bike2);
+        AddBike(bike3);
+        AddBike(bike4);
+        AddBike(bike5);
+        AddBike(bike6);
+        
+        // Creating stations
+        var station1 = new Station("Dworzec Centralny", 10);
+        var station2 = new Station("Metro Politechnika", 8);
+        var station3 = new Station("Stare Miasto", 12);
+
+        // Adding bikes to stations
+        station1.TryAddBike(bike1);
+        station1.TryAddBike(bike3);
+        station1.TryAddBike(bike5);
+        
+        station2.TryAddBike(bike2);
+        station2.TryAddBike(bike4);
+        
+        station3.TryAddBike(bike6);
+
+        AddStation(station1);
+        AddStation(station2);
+        AddStation(station3);
+
+        // Creating users for testing
+        var user2 = new User("Szymon", "Niemyjski", "szymon.niemyjski@gmail.com", UserRole.User); // Normal user
+        var user1 = new User("Kacper", "Strzesniewski", "kacper.strzesniewski@gmail.com", UserRole.Admin); // Admin
+        
+        AddUser(user1);
+        AddUser(user2);
+    }
     
     public void AddBike(Bike bike) => _bikes.Add(bike);
     public void AddStation(Station station) => _stations.Add(station);

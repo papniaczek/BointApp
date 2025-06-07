@@ -8,9 +8,12 @@
         <entry key="BointApp/Views/BikesPageView.axaml" value="BointApp/BointApp.csproj" />
         <entry key="BointApp/Views/HomePageView.axaml" value="BointApp/BointApp.csproj" />
         <entry key="BointApp/Views/HomePageViewModel.axaml" value="BointApp/BointApp.csproj" />
+        <entry key="BointApp/Views/LoginView.axaml" value="BointApp/BointApp.csproj" />
         <entry key="BointApp/Views/MainWindow.axaml" value="BointApp/BointApp.csproj" />
         <entry key="BointApp/Views/SettingsPageView.axaml" value="BointApp/BointApp.csproj" />
+        <entry key="BointApp/Views/SplashScreenView.axaml" value="BointApp/BointApp.csproj" />
         <entry key="BointApp/Views/StationsPageView.axaml" value="BointApp/BointApp.csproj" />
+        <entry key="BointApp/Views/TestView.axaml" value="BointApp/BointApp.csproj" />
         <entry key="BointApp/Views/UserPageView.axaml" value="BointApp/BointApp.csproj" />
       </map>
     </option>

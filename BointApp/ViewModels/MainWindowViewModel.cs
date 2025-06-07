@@ -11,23 +11,10 @@ namespace BointApp.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     [ObservableProperty] private bool _isPaneOpen = true;
-    //[ObservableProperty] private ViewModelBase _currentPage = new HomePageViewModel();
+    // Przywracamy inicjalizację 'CurrentPage' bezpośrednio w deklaracji
+    [ObservableProperty] private ViewModelBase _currentPage = new HomePageViewModel();
     [ObservableProperty] private ListItemTemplate? _selectedListItem;
     
-    private ViewModelBase _currentPage = new HomePageViewModel();
-    public ViewModelBase CurrentPage
-    {
-        get => _currentPage;
-        set
-        {
-            if (_currentPage != value)
-            {
-                _currentPage = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
     public void GoToUserPage()
     {
         CurrentPage = new UserPageViewModel();
@@ -54,8 +41,6 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         IsPaneOpen = !IsPaneOpen;
     }
-    
-    
 }
 
 public class ListItemTemplate
@@ -65,8 +50,15 @@ public class ListItemTemplate
         ModelType = modelType;
         Label = modelType.Name.Replace("PageViewModel", "");
 
-        Application.Current!.TryFindResource(iconKey, out var res);
-        ListItemIcon = (StreamGeometry)res!;
+        // Zostawiamy bezpieczną wersję ładowania ikon
+        if (Application.Current != null && Application.Current.TryFindResource(iconKey, out var res) && res is StreamGeometry geometry)
+        {
+            ListItemIcon = geometry;
+        }
+        else
+        {
+            ListItemIcon = new StreamGeometry();
+        }
     }
     
     public string Label { get; }
