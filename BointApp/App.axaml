@@ -12,6 +12,7 @@
     <Application.Resources>
         <converters:PageNameConverter x:Key="PageNameConverter"/>
         <converters:IndexToVisibilityConverter x:Key="IndexToVisibilityConverter"/>
+        <converters:EqualityToVisibilityConverter x:Key="EqualityToVisibilityConverter"/>
     </Application.Resources>
   
     <Application.Styles>

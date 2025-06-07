@@ -3,38 +3,61 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BointApp.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="BointApp.Views.StationsPageView"
              x:DataType="vm:StationsPageViewModel">
     <Grid RowDefinitions="Auto, *" Margin="20">
         <TextBlock Grid.Row="0" Text="Zarządzaj Stacjami" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20"/>
 
         <Grid Grid.Row="1" ColumnDefinitions="*, Auto">
-
-            <ListBox Grid.Column="0" ItemsSource="{Binding Stations}">
+            
+            <ListBox Grid.Column="0" ItemsSource="{Binding Stations}" SelectedItem="{Binding SelectedStation}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="#333" BorderThickness="0,0,0,1" Padding="10">
-                            <Grid ColumnDefinitions="3*, 2*, 2*, Auto" ColumnSpacing="10" VerticalAlignment="Center">
-
-                                <TextBlock Grid.Column="0" Text="{Binding Location}" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
-
-                                <TextBlock Grid.Column="1" VerticalAlignment="Center">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="Zajęte miejsca: {0} / {1}">
-                                            <Binding Path="AvailableBikes.Count"/>
-                                            <Binding Path="Capacity"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-
-                                <ProgressBar Grid.Column="2" Minimum="0" Maximum="{Binding Capacity}" Value="{Binding AvailableBikes.Count}" VerticalAlignment="Center"/>
+                            <StackPanel Spacing="10">
+                                <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,10">
+                                    <TextBlock Grid.Column="0" Text="{Binding Location}" FontSize="18" FontWeight="Bold"/>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10">
+                                        <TextBlock VerticalAlignment="Center">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="Miejsca: {0}/{1}">
+                                                    <Binding Path="AvailableBikes.Count"/>
+                                                    <Binding Path="Capacity"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <Button Content="Usuń stację"
+                                                Command="{Binding $parent[ListBox].DataContext.RemoveStationCommand}"
+                                                CommandParameter="{Binding}"
+                                                IsVisible="{Binding $parent[ListBox].DataContext.IsAdmin}"/>
+                                    </StackPanel>
+                                </Grid>
                                 
-                                <Button Grid.Column="3" Content="Usuń"
-                                        Command="{Binding $parent[ListBox].DataContext.RemoveStationCommand}"
-                                        CommandParameter="{Binding}"
-                                        IsVisible="{Binding $parent[ListBox].DataContext.IsAdmin}"/>
-                            </Grid>
+                                <ListBox ItemsSource="{Binding AvailableBikes}" BorderThickness="0" Background="Transparent">
+                                    <ListBox.IsVisible>
+                                        <MultiBinding Converter="{StaticResource EqualityToVisibilityConverter}">
+                                            <Binding Path="."/>
+                                            <Binding Path="$parent[UserControl].DataContext.SelectedStation"/>
+                                        </MultiBinding>
+                                    </ListBox.IsVisible>
+                                    
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="#222" BorderThickness="1" CornerRadius="5" Padding="8" Margin="20,0,0,5">
+                                                <Grid ColumnDefinitions="*,*,*,Auto" ColumnSpacing="10">
+                                                    <TextBlock Grid.Column="0" Text="{Binding Brand}"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding Converter={StaticResource PageNameConverter}}"/>
+                                                    <TextBlock Grid.Column="2" Text="{Binding CostPerHour, StringFormat={}{0:C}}"/>
+                                                    <Button Grid.Column="3" Content="Wypożycz"
+                                                            Command="{Binding $parent[UserControl].DataContext.RentBikeCommand}"
+                                                            CommandParameter="{Binding}"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -45,12 +68,9 @@
                     IsVisible="{Binding IsAdmin}">
                 <StackPanel Spacing="10">
                     <TextBlock Text="Dodaj nową stację" FontSize="18" FontWeight="SemiBold"/>
-                    
                     <TextBox Text="{Binding NewStationLocation}" Watermark="Lokalizacja stacji"/>
-                    
                     <TextBlock Text="Pojemność stacji:"/>
                     <NumericUpDown Value="{Binding NewStationCapacity}" Minimum="1" Maximum="50"/>
-
                     <Button Content="Dodaj Stację" Command="{Binding AddStationCommand}" HorizontalAlignment="Stretch"/>
                 </StackPanel>
             </Border>

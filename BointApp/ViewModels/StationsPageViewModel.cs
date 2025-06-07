@@ -1,9 +1,11 @@
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using BointApp.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using AppContext = BointApp.Models.AppContext;
 
 namespace BointApp.ViewModels;
 
@@ -13,6 +15,9 @@ public partial class StationsPageViewModel : ViewModelBase
 
     [ObservableProperty]
     private bool _isAdmin;
+    
+    [ObservableProperty]
+    private Station? _selectedStation;
 
     // Kolekcja stacji, inicjalizowana od razu w deklaracji
     public ObservableCollection<Station> Stations { get; } = new(App.Context.DataStore.Stations.ToList());
@@ -71,5 +76,28 @@ public partial class StationsPageViewModel : ViewModelBase
 
         _dataStore.RemoveStation(station);
         Stations.Remove(station);
+    }
+    
+    [RelayCommand]
+    private void RentBike(Bike bike)
+    {
+        if (bike is null || App.Context.CurrentUser is null) return;
+
+        // Znajdź stację, na której jest ten rower
+        var station = Stations.FirstOrDefault(s => s.AvailableBikes.Contains(bike));
+        if (station is null) return;
+
+        try
+        {
+            // Użyj centralnego serwisu do rozpoczęcia wypożyczenia
+            App.Context.RentalService.StartRental(App.Context.CurrentUser, bike, station);
+            // Dzięki ObservableCollection, UI odświeży się automatycznie!
+        }
+        catch (Exception ex)
+        {
+            // Tutaj można by wyświetlić okienko z błędem, np. o niskim stanie baterii
+            // na razie błąd pojawi się tylko w konsoli debugowej
+            System.Diagnostics.Debug.WriteLine($"Błąd wypożyczenia: {ex.Message}");
+        }
     }
 }

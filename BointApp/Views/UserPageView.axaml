@@ -2,7 +2,55 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="BointApp.Views.UserPageView">
-    User Page
+             xmlns:vm="using:BointApp.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="BointApp.Views.UserPageView"
+             x:DataType="vm:UserPageViewModel">
+    <StackPanel Margin="20" Spacing="20">
+        <TextBlock Text="Panel Użytkownika" FontSize="24" FontWeight="SemiBold"/>
+        
+        <Border BorderBrush="#555" BorderThickness="1" CornerRadius="10" Padding="15">
+            <StackPanel>
+                <TextBlock Text="Aktywne Wypożyczenia" FontSize="18" Margin="0,0,0,10"/>
+                <ListBox ItemsSource="{Binding ActiveRentals}" Background="Transparent" BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="*,*,Auto,Auto" ColumnSpacing="10">
+                                <TextBlock Grid.Column="0" Text="{Binding Bike.Brand}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding StartTime, StringFormat='Wypożyczono: {0:g}'}"/>
+                                
+                                <ComboBox Grid.Column="2" Width="200"
+                                          ItemsSource="{Binding $parent[UserControl].DataContext.AvailableStations}"
+                                          SelectedItem="{Binding $parent[UserControl].DataContext.SelectedReturnStation}"
+                                          DisplayMemberBinding="{Binding Location}"/>
+                                          
+                                <Button Grid.Column="3" Content="Zwróć"
+                                        Command="{Binding $parent[UserControl].DataContext.ReturnBikeCommand}"
+                                        CommandParameter="{Binding}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Border>
+        
+        <Border BorderBrush="#333" BorderThickness="1" CornerRadius="10" Padding="15">
+            <StackPanel>
+                <TextBlock Text="Historia Wypożyczeń" FontSize="18" Margin="0,0,0,10"/>
+                <ListBox ItemsSource="{Binding CompletedRentals}" Background="Transparent" BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="10">
+                                <TextBlock Grid.Column="0" Text="{Binding Bike.Brand}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding StartTime, StringFormat='Od: {0:g}'}"/>
+                                <TextBlock Grid.Column="2" Text="{Binding EndTime, StringFormat='Do: {0:g}'}"/>
+                                <TextBlock Grid.Column="3" Text="{Binding Cost, StringFormat='Koszt: {0:C}'}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Border>
+        
+    </StackPanel>
 </UserControl>

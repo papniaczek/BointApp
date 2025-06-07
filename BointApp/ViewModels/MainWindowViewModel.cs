@@ -32,6 +32,7 @@ public partial class MainWindowViewModel : ViewModelBase
     public ObservableCollection<ListItemTemplate> Items { get; } = new()
     {
         new ListItemTemplate(typeof(HomePageViewModel), "HomeRegular"),
+        new ListItemTemplate(typeof(UserPageViewModel), "PersonRegular"),
         new ListItemTemplate(typeof(BikesPageViewModel), "VehicleBicycleRegular"),
         new ListItemTemplate(typeof(StationsPageViewModel), "MapRegular"),
         new ListItemTemplate(typeof(SettingsPageViewModel), "SettingsRegular")
