@@ -16,6 +16,6 @@ public partial class AppContext : ObservableObject
         DataStore = new DataStore();
         RentalService = new RentalService(); // Tworzymy instancję
         
-        CurrentUser = DataStore.Users.FirstOrDefault();
+        
     }
 }

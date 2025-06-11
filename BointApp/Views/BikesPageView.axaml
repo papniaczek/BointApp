@@ -7,7 +7,15 @@
              x:Class="BointApp.Views.BikesPageView"
              x:DataType="vm:BikesPageViewModel">
     <Grid RowDefinitions="Auto, *" Margin="20">
-        <TextBlock Grid.Row="0" Text="Zarządzaj Rowerami" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20"/>
+        
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,20">
+            <TextBlock Grid.Column="0" Text="Manage bikes" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center"/>
+            
+            <Button Grid.Column="1" 
+                    Content="Add new bike" 
+                    Command="{Binding ShowAddPanelCommand}"
+                    IsVisible="{Binding IsAdmin}"/>
+        </Grid>
 
         <Grid Grid.Row="1" ColumnDefinitions="*, Auto">
 
@@ -15,11 +23,11 @@
                 
                 <Border Grid.Row="0" BorderBrush="#AAA" BorderThickness="0,0,0,1" Padding="10,0,10,10">
                     <Grid ColumnDefinitions="2*, 1.5*, 1*, 1*, Auto" ColumnSpacing="10">
-                        <TextBlock Grid.Column="0" Text="Marka" FontWeight="Bold"/>
-                        <TextBlock Grid.Column="1" Text="Typ" FontWeight="Bold"/>
-                        <TextBlock Grid.Column="2" Text="Koszt/h" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="0" Text="Brand" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="1" Text="Type" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="2" Text="Price/h" FontWeight="Bold"/>
                         <TextBlock Grid.Column="3" Text="Dostępny" FontWeight="Bold"/>
-                        <TextBlock Grid.Column="4" Text="Akcje" FontWeight="Bold" IsVisible="{Binding IsAdmin}"/>
+                        <TextBlock Grid.Column="4" Text="Actions" FontWeight="Bold" IsVisible="{Binding IsAdmin}"/>
                     </Grid>
                 </Border>
 
@@ -35,7 +43,7 @@
 
                                     <CheckBox Grid.Column="3" IsChecked="{Binding IsAvailable}" IsEnabled="False" VerticalAlignment="Center"/>
 
-                                    <Button Grid.Column="4" Content="Usuń"
+                                    <Button Grid.Column="4" Content="Delete"
                                             Command="{Binding $parent[ListBox].DataContext.RemoveBikeCommand}"
                                             CommandParameter="{Binding}"
                                             IsVisible="{Binding $parent[ListBox].DataContext.IsAdmin}"/>
@@ -45,30 +53,33 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
-
+            
             <Border Grid.Column="1" Width="300" Margin="20,0,0,0" Padding="15"
                     BorderBrush="#ff6a55" BorderThickness="1" CornerRadius="5"
-                    IsVisible="{Binding IsAdmin}">
-                <StackPanel Spacing="10">
-                    <TextBlock Text="Dodaj nowy rower" FontSize="18" FontWeight="SemiBold"/>
+                    IsVisible="{Binding IsAddPanelVisible}"> <StackPanel Spacing="10">
+                    <TextBlock Text="Add new bike" FontSize="18" FontWeight="SemiBold"/>
                     <ComboBox SelectedIndex="{Binding SelectedBikeTypeIndex}">
-                        <ComboBoxItem Content="Rower Miejski"/>
-                        <ComboBoxItem Content="Rower Górski"/>
-                        <ComboBoxItem Content="Rower Elektryczny"/>
+                        <ComboBoxItem Content="City Bike"/>
+                        <ComboBoxItem Content="Mountain Bike"/>
+                        <ComboBoxItem Content="Electric Bike"/>
                     </ComboBox>
-                    <TextBox Text="{Binding NewBikeBrand}" Watermark="Marka roweru"/>
+                    <TextBox Text="{Binding NewBikeBrand}" Watermark="Bike model"/>
                     <StackPanel Spacing="5" IsVisible="{Binding SelectedBikeTypeIndex, Converter={StaticResource IndexToVisibilityConverter}, ConverterParameter=0}">
-                        <CheckBox IsChecked="{Binding NewCityBikeHasBasket}">Ma koszyk?</CheckBox>
+                        <CheckBox IsChecked="{Binding NewCityBikeHasBasket}">Have basket?</CheckBox>
                     </StackPanel>
                     <StackPanel Spacing="5" IsVisible="{Binding SelectedBikeTypeIndex, Converter={StaticResource IndexToVisibilityConverter}, ConverterParameter=1}">
-                        <TextBlock Text="Rozmiar koła (cale):"/>
+                        <TextBlock Text="Wheel size:"/>
                         <NumericUpDown Value="{Binding NewMountainBikeWheelSize}" Minimum="20" Maximum="32"/>
                     </StackPanel>
                     <StackPanel Spacing="5" IsVisible="{Binding SelectedBikeTypeIndex, Converter={StaticResource IndexToVisibilityConverter}, ConverterParameter=2}">
-                        <TextBlock Text="Poziom baterii (%):"/>
+                        <TextBlock Text="Battery level (%):"/>
                         <NumericUpDown Value="{Binding NewElectricBikeBattery}" Minimum="0" Maximum="100"/>
                     </StackPanel>
-                    <Button Content="Dodaj Rower" Command="{Binding AddBikeCommand}" HorizontalAlignment="Stretch"/>
+                    
+                    <Grid ColumnDefinitions="*,*">
+                        <Button Grid.Column="0" Content="Add Bike" Command="{Binding AddBikeCommand}" HorizontalAlignment="Stretch" Margin="0,0,5,0"/>
+                        <Button Grid.Column="1" Content="Cancel" Command="{Binding HideAddPanelCommand}" HorizontalAlignment="Stretch" Margin="5,0,0,0"/>
+                    </Grid>
                 </StackPanel>
             </Border>
         </Grid>

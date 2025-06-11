@@ -9,8 +9,8 @@ public partial class LoginViewModel : ViewModelBase
     public Action<Models.User> OnLoginSuccess { get; set; }
     public Action ShowRegisterView { get; set; }
 
-    [ObservableProperty] private string _email = "admin@boint.app";
-    [ObservableProperty] private string _password = "admin123";
+    [ObservableProperty] private string _email = "";
+    [ObservableProperty] private string _password = "";
     [ObservableProperty] private string? _errorMessage;
 
     [RelayCommand]
@@ -25,7 +25,7 @@ public partial class LoginViewModel : ViewModelBase
         }
         else
         {
-            ErrorMessage = "Nieprawidłowy e-mail lub hasło.";
+            ErrorMessage = "Invalid e-mail or password";
         }
     }
 

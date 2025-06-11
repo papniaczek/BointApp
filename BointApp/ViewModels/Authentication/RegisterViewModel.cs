@@ -24,13 +24,13 @@ public partial class RegisterViewModel : ViewModelBase
 
         if (Password != ConfirmPassword)
         {
-            ErrorMessage = "Hasła nie są zgodne.";
+            ErrorMessage = "Both passwords must match";
             return;
         }
         
         if (App.Context.DataStore.IsEmailTaken(Email))
         {
-            ErrorMessage = "Ten adres e-mail jest już zajęty.";
+            ErrorMessage = "This e-mail is already taken.";
             return;
         }
 
@@ -42,7 +42,7 @@ public partial class RegisterViewModel : ViewModelBase
         }
         catch (Exception e)
         {
-            ErrorMessage = $"Wystąpił błąd: {e.Message}";
+            ErrorMessage = $"{e.Message}";
         }
     }
     

@@ -1,24 +1,61 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BointApp.Services;
 
 namespace BointApp.Models;
 
 public class DataStore
 {
-    private readonly List<Bike> _bikes = new();
-    private readonly List<Station> _stations = new();
-    private readonly List<User> _users = new();
-    private readonly List<Rental> _rentals = new();
+    public List<Bike> Bikes { get; private set; } = new();
+    public List<Station> Stations { get; private set; } = new();
+    public List<User> Users { get; private set; } = new();
+    public List<Rental> _rentals = new();
 
-    public IReadOnlyList<Bike> Bikes => _bikes.AsReadOnly();
-    public IReadOnlyList<Station> Stations => _stations.AsReadOnly();
-    public IReadOnlyList<User> Users => _users.AsReadOnly();
+    public IReadOnlyList<Bike> BikesView => Bikes.AsReadOnly();
+    public IReadOnlyList<Station> StationsView => Stations.AsReadOnly();
+    public IReadOnlyList<User> UsersView => Users.AsReadOnly();
     public IReadOnlyList<Rental> Rentals => _rentals.AsReadOnly();
+    
+    private readonly JsonDataService _dataService = new("datastore.json");
 
     public DataStore()
     {
-        SeedInitialData();
+        LoadOrSeedData();
+    }
+    
+    private void LoadOrSeedData()
+    {
+        var loadedData = _dataService.LoadData();
+        if (loadedData != null)
+        {
+            // Jeśli dane zostały wczytane z pliku
+            Bikes = loadedData.Bikes;
+            Users = loadedData.Users;
+            Stations = loadedData.Stations;
+
+            // Ważne: Musimy ponownie powiązać rowery ze stacjami, bo referencje po deserializacji
+            // mogą wymagać odświeżenia.
+            // W tym przypadku Newtonsoft.Json z PreserveReferencesHandling powinien sobie z tym poradzić,
+            // więc dodatkowy kod nie jest konieczny.
+        }
+        else
+        {
+            // Jeśli plik nie istnieje (pierwsze uruchomienie), tworzymy dane i zapisujemy je
+            SeedInitialData();
+            SaveChanges();
+        }
+    }
+    
+    public void SaveChanges()
+    {
+        var dataToSave = new DataContainer
+        {
+            Bikes = this.Bikes,
+            Stations = this.Stations,
+            Users = this.Users
+        };
+        _dataService.SaveData(dataToSave);
     }
 
     private void SeedInitialData()
@@ -59,7 +96,7 @@ public class DataStore
 
         // Creating users for testing
         var user2 = new User("Szymon", "Niemyjski", "szymon.niemyjski@gmail.com", "user123", UserRole.User); // Normal user
-        var user1 = new User("Kacper", "Strzesniewski", "kacper.strzesniewski@gmail.com", "admin123", UserRole.Admin); // Admin
+        var user1 = new User("Kacper", "Strzesniewski", "a@a.a", "aaa", UserRole.Admin); // Admin
         
         AddUser(user1);
         AddUser(user2);
@@ -67,33 +104,33 @@ public class DataStore
     
     public User? GetUserByEmail(string email)
     {
-        return _users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+        return Users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
     }
     
     public bool IsEmailTaken(string email)
     {
-        return _users.Any(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+        return Users.Any(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
     }
     
-    public void AddBike(Bike bike) => _bikes.Add(bike);
-    public void AddStation(Station station) => _stations.Add(station);
-    public void AddUser(User user) => _users.Add(user);
+    public void AddBike(Bike bike) => Bikes.Add(bike);
+    public void AddStation(Station station) => Stations.Add(station);
+    public void AddUser(User user) => Users.Add(user);
     
-    public void RemoveBike(Bike bike) => _bikes.Remove(bike);
-    public void RemoveStation(Station station) => _stations.Remove(station);
-    public void RemoveUser(User user) => _users.Remove(user);
+    public void RemoveBike(Bike bike) => Bikes.Remove(bike);
+    public void RemoveStation(Station station) => Stations.Remove(station);
+    public void RemoveUser(User user) => Users.Remove(user);
     
     // Filters for searching etc.
     // Bikes
-    public IEnumerable<Bike> GetAvailableBikes() => _bikes.FindAll(b => b.IsAvailable);
-    public IEnumerable<CityBike> GetAllCityBikes() => _bikes.OfType<CityBike>().ToList();
-    public IEnumerable<MountainBike> GetAllMountainBikes() => _bikes.OfType<MountainBike>().ToList();
-    public IEnumerable<ElectricBike> GetAllElectricBikes() => _bikes.OfType<ElectricBike>().ToList();
+    public IEnumerable<Bike> GetAvailableBikes() => Bikes.FindAll(b => b.IsAvailable);
+    public IEnumerable<CityBike> GetAllCityBikes() => Bikes.OfType<CityBike>().ToList();
+    public IEnumerable<MountainBike> GetAllMountainBikes() => Bikes.OfType<MountainBike>().ToList();
+    public IEnumerable<ElectricBike> GetAllElectricBikes() => Bikes.OfType<ElectricBike>().ToList();
     
     // Stations
-    public IEnumerable<Station> GetAvailableStations() => _stations.FindAll(s => s.Blocked == false);
-    public IEnumerable<Station> GetBlockedStations() => _stations.FindAll(s => s.Blocked);
-    public IEnumerable<Station> GetUnblockedStations() => _stations.FindAll(s => s.Blocked == false);
+    public IEnumerable<Station> GetAvailableStations() => Stations.FindAll(s => s.Blocked == false);
+    public IEnumerable<Station> GetBlockedStations() => Stations.FindAll(s => s.Blocked);
+    public IEnumerable<Station> GetUnblockedStations() => Stations.FindAll(s => s.Blocked == false);
     
     // Rentals
     public IEnumerable<Rental> GetLast10ActiveRentals() => _rentals

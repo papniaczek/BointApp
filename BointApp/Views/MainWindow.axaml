@@ -10,6 +10,23 @@
         Icon="/Assets/boint-logo.ico"
         Title="Boint - Bike Rental App"
         Width="1280" Height="720" CanResize="False">
+    
+    <!-- Not working sad :( -->
+    <!-- <Window.Styles> -->
+    <!--      -->
+    <!--     <Style Selector="ListBox.SideMenu ListBoxItem:selected"> -->
+    <!--         <Setter Property="Background" Value="#2E8B57"/> <Setter Property="Foreground" Value="White"/> -->
+    <!--     </Style> -->
+    <!-- -->
+    <!--     <Style Selector="ListBox.SideMenu ListBoxItem:selected:pointerover"> -->
+    <!--         <Setter Property="Background" Value="#2E8B57"/> <Setter Property="Foreground" Value="White"/> -->
+    <!--     </Style> -->
+    <!--      -->
+    <!--     <Style Selector="ListBox.SideMenu ListBoxItem:pointerover"> -->
+    <!--         <Setter Property="Background" Value="#4A4A4A"/> -->
+    <!--     </Style> -->
+    <!--      -->
+    <!-- </Window.Styles> -->
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -65,7 +82,7 @@
                 <ListBox Background="#1a1c1e"
                          ItemsSource="{Binding Items}"
                          SelectedItem="{Binding SelectedListItem}"
-                         Cursor="Hand">
+                         Cursor="Hand" Classes="SideMenu">
                     <ListBox.Styles>
                         <Style Selector="ListBoxItem">
                             <Setter Property="Margin" Value="0 10 0 0" />
@@ -90,6 +107,18 @@
                             <Setter Property="Foreground" Value="#ff6a55" />
                         </Style>
                     </ListBox.Styles>
+                    
+                    <!-- Not working sad :( -->
+                    <!-- <ListBox.Resources> -->
+                    <!--     <SolidColorBrush x:Key="ListBoxItemSelectedBackground" Color="#2E8B57" /> -->
+                    <!-- -->
+                    <!--     <SolidColorBrush x:Key="ListBoxItemSelectedForeground" Color="White" /> -->
+                    <!-- -->
+                    <!--     <SolidColorBrush x:Key="ListBoxItemSelectedPointerOverBackground" Color="#3CB371" /> -->
+                    <!-- -->
+                    <!--     <SolidColorBrush x:Key="ListBoxItemPointerOverBackground" Color="#444444" /> -->
+                    <!--     <SolidColorBrush x:Key="ListBoxItemPointerOverForeground" Color="White" /> -->
+                    <!-- </ListBox.Resources> -->
                     
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type vm:ListItemTemplate}">
@@ -126,15 +155,13 @@
                         <TextBlock Foreground="#fefefe"
                                    HorizontalAlignment="Right"
                                    FontSize="13"
-                                   FontWeight="Medium">
-                            Kacper Strzesniewski
-                        </TextBlock>
+                                   FontWeight="Medium" 
+                                   Text="{Binding CurrentUser.FullName}"/>
                         <TextBlock Foreground="#ff6a55"
                                    HorizontalAlignment="Right"
                                    FontSize="10"
-                                   FontWeight="Light">
-                            Admin
-                        </TextBlock>
+                                   FontWeight="Light" 
+                                   Text="{Binding CurrentUser.Role}"/>
                     </StackPanel>
                     <Button Width="40"
                             Height="40"

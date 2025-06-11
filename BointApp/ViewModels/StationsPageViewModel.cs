@@ -18,11 +18,12 @@ public partial class StationsPageViewModel : ViewModelBase
     
     [ObservableProperty]
     private Station? _selectedStation;
+    
+    [ObservableProperty]
+    private bool _isAddPanelVisible = false;
 
-    // Kolekcja stacji, inicjalizowana od razu w deklaracji
     public ObservableCollection<Station> Stations { get; } = new(App.Context.DataStore.Stations.ToList());
 
-    // Właściwości dla formularza dodawania nowej stacji
     [ObservableProperty]
     private string _newStationLocation = "";
     [ObservableProperty]
@@ -47,6 +48,18 @@ public partial class StationsPageViewModel : ViewModelBase
             UpdateUserRole();
         }
     }
+    
+    [RelayCommand]
+    private void ShowAddPanel()
+    {
+        IsAddPanelVisible = true;
+    }
+    
+    [RelayCommand]
+    private void HideAddPanel()
+    {
+        IsAddPanelVisible = false;
+    }
 
     [RelayCommand]
     private void AddStation()
@@ -58,9 +71,10 @@ public partial class StationsPageViewModel : ViewModelBase
         _dataStore.AddStation(newStation);
         Stations.Add(newStation);
 
-        // Wyczyszczenie formularza
         NewStationLocation = "";
         NewStationCapacity = 10;
+        
+        IsAddPanelVisible = false;
     }
 
     [RelayCommand]
@@ -68,10 +82,9 @@ public partial class StationsPageViewModel : ViewModelBase
     {
         if (station is null) return;
         
-        // Można dodać logikę zapobiegającą usunięciu stacji, jeśli są na niej rowery
         if (station.AvailableBikes.Any())
         {
-            // Na razie pomijamy, ale to dobre miejsce na walidację
+            // nothing rn
         }
 
         _dataStore.RemoveStation(station);
@@ -83,20 +96,15 @@ public partial class StationsPageViewModel : ViewModelBase
     {
         if (bike is null || App.Context.CurrentUser is null) return;
 
-        // Znajdź stację, na której jest ten rower
         var station = Stations.FirstOrDefault(s => s.AvailableBikes.Contains(bike));
         if (station is null) return;
 
         try
         {
-            // Użyj centralnego serwisu do rozpoczęcia wypożyczenia
             App.Context.RentalService.StartRental(App.Context.CurrentUser, bike, station);
-            // Dzięki ObservableCollection, UI odświeży się automatycznie!
         }
         catch (Exception ex)
         {
-            // Tutaj można by wyświetlić okienko z błędem, np. o niskim stanie baterii
-            // na razie błąd pojawi się tylko w konsoli debugowej
             System.Diagnostics.Debug.WriteLine($"Błąd wypożyczenia: {ex.Message}");
         }
     }

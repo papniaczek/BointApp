@@ -6,12 +6,16 @@ using System.Linq;
 using Avalonia.Markup.Xaml;
 using BointApp.Models;
 using BointApp.ViewModels;
+using BointApp.ViewModels.Authentication;
 using BointApp.Views;
+using BointApp.Views.Authentication;
 
 namespace BointApp;
 
 public partial class App : Application
 {
+    private static IClassicDesktopStyleApplicationLifetime? _desktop;
+    
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -23,20 +27,49 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Tworzymy kontekst
-            Context = new AppContext();
+            _desktop = desktop;
             
-            // Wyłączamy walidację adnotacji danych z Avalonia
+            Context = new AppContext();
             DisableAvaloniaDataAnnotationValidation();
             
-            // I od razu tworzymy i pokazujemy główne okno
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = new MainWindowViewModel()
-            };
+            ShowAuthWindow();
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+    
+    public static void RequestLogout()
+    {
+        if (_desktop is null) return;
+        
+        _desktop.MainWindow?.Close();
+        ShowAuthWindow();
+    }
+    
+    private static void ShowAuthWindow()
+    {
+        if (_desktop is null) return;
+
+        var authViewModel = new AuthViewModel(user =>
+        {
+            Context.CurrentUser = user;
+        
+            var mainWindow = new MainWindow
+            {
+                DataContext = new MainWindowViewModel()
+            };
+
+            var oldWindow = _desktop.MainWindow;
+            _desktop.MainWindow = mainWindow;
+            _desktop.MainWindow.Show();
+            oldWindow?.Close();
+        });
+        
+        _desktop.MainWindow = new AuthWindow
+        {
+            DataContext = authViewModel
+        };
+        _desktop.MainWindow.Show();
     }
 
     private void DisableAvaloniaDataAnnotationValidation()

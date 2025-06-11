@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using BointApp.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -11,9 +12,15 @@ namespace BointApp.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     [ObservableProperty] private bool _isPaneOpen = true;
-    // Przywracamy inicjalizację 'CurrentPage' bezpośrednio w deklaracji
     [ObservableProperty] private ViewModelBase _currentPage = new HomePageViewModel();
     [ObservableProperty] private ListItemTemplate? _selectedListItem;
+    
+    public User? CurrentUser { get; }
+    
+    public MainWindowViewModel()
+    {
+        CurrentUser = App.Context.CurrentUser;
+    }
     
     public void GoToUserPage()
     {

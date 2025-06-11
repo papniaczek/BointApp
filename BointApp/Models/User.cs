@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace BointApp.Models;
 
@@ -9,6 +10,8 @@ public class User
     public string Name { get; set; }
     public string Surname { get; set; }
     public string Email { get; set; }
+    
+    [JsonProperty]
     public string PasswordHash { get; private set; }
     public UserRole Role { get; set; }
     public List<Rental> RentalHistory { get; set; } = new();
@@ -25,6 +28,18 @@ public class User
         Email = email;
         Role = role;
         PasswordHash = HashPassword(password); 
+    }
+    
+    [JsonConstructor]
+    public User(Guid userID, string name, string surname, string email, string passwordHash, UserRole role, List<Rental> rentalHistory)
+    {
+        UserID = userID;
+        Name = name;
+        Surname = surname;
+        Email = email;
+        PasswordHash = passwordHash;
+        Role = role;
+        RentalHistory = rentalHistory;
     }
     
     public static string HashPassword(string password)

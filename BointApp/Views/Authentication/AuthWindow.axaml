@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="550"
-        x:Class="BointApp.Views.AuthWindow"
+        x:Class="BointApp.Views.Authentication.AuthWindow"
         x:DataType="vm:AuthViewModel"
         Title="BointApp - Witaj!"
         CanResize="False" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">

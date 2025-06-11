@@ -7,15 +7,17 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace BointApp.ViewModels;
 
-// UWAGA: Zmieniliśmy nazwę klasy z TestViewModel na BikesPageViewModel
 public partial class BikesPageViewModel : ViewModelBase
 {
     private readonly DataStore _dataStore;
 
     [ObservableProperty] 
     private bool _isAdmin;
+    
+    [ObservableProperty] 
+    private bool _isAddPanelVisible = false;
 
-    public ObservableCollection<Bike> Bikes { get; } = new(App.Context.DataStore.Bikes.ToList());
+    public ObservableCollection<Bike> Bikes { get; } = new(App.Context.DataStore.BikesView.ToList());
 
     [ObservableProperty] private string _newBikeBrand = "";
     [ObservableProperty] private int _selectedBikeTypeIndex = 0;
@@ -42,6 +44,12 @@ public partial class BikesPageViewModel : ViewModelBase
             UpdateUserRole();
         }
     }
+    
+    [RelayCommand]
+    private void ShowAddPanel() => IsAddPanelVisible = true;
+    
+    [RelayCommand]
+    private void HideAddPanel() => IsAddPanelVisible = false;
 
     [RelayCommand]
     private void AddBike()
@@ -58,12 +66,19 @@ public partial class BikesPageViewModel : ViewModelBase
         }
         
         _dataStore.AddBike(newBike);
-        Bikes.Add(newBike);
         
+        var firstAvailableStation = _dataStore.StationsView.FirstOrDefault(s => !s.Blocked);
+        if (firstAvailableStation != null)
+        {
+            firstAvailableStation.TryAddBike(newBike);
+        }
+        
+        Bikes.Add(newBike);
         NewBikeBrand = "";
         NewCityBikeHasBasket = false;
         NewMountainBikeWheelSize = 26;
         NewElectricBikeBattery = 100;
+        IsAddPanelVisible = false;
     }
 
     [RelayCommand]
