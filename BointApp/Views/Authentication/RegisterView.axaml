@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BointApp.ViewModels.Authentication"
+             mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="550"
+             x:Class="BointApp.Views.RegisterView"
+             x:DataType="vm:RegisterViewModel">
+    <StackPanel Spacing="15" Width="300" VerticalAlignment="Center">
+        <TextBlock Text="Rejestracja" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+        <TextBox Text="{Binding Name}" Watermark="Imię"/>
+        <TextBox Text="{Binding Surname}" Watermark="Nazwisko"/>
+        <TextBox Text="{Binding Email}" Watermark="E-mail"/>
+        <TextBox Text="{Binding Password}" Watermark="Hasło" PasswordChar="*"/>
+        <TextBox Text="{Binding ConfirmPassword}" Watermark="Powtórz hasło" PasswordChar="*"/>
+
+        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" IsVisible="{Binding ErrorMessage, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+        <TextBlock Text="Rejestracja pomyślna! Możesz się teraz zalogować." Foreground="Green" IsVisible="{Binding IsSuccess}"/>
+
+        <Button Content="Zarejestruj się" Command="{Binding RegisterCommand}" HorizontalAlignment="Stretch" IsVisible="{Binding !IsSuccess}"/>
+        <Button Content="Powrót do logowania" Command="{Binding GoToLoginCommand}" HorizontalAlignment="Stretch" Classes="Link"/>
+    </StackPanel>
+</UserControl>

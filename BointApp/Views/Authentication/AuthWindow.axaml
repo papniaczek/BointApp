@@ -1,0 +1,12 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:BointApp.ViewModels.Authentication"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="550"
+        x:Class="BointApp.Views.AuthWindow"
+        x:DataType="vm:AuthViewModel"
+        Title="BointApp - Witaj!"
+        CanResize="False" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+    <ContentControl Content="{Binding CurrentViewModel}"/>
+</Window>

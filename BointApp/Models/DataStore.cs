@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -57,11 +58,21 @@ public class DataStore
         AddStation(station3);
 
         // Creating users for testing
-        var user2 = new User("Szymon", "Niemyjski", "szymon.niemyjski@gmail.com", UserRole.User); // Normal user
-        var user1 = new User("Kacper", "Strzesniewski", "kacper.strzesniewski@gmail.com", UserRole.Admin); // Admin
+        var user2 = new User("Szymon", "Niemyjski", "szymon.niemyjski@gmail.com", "user123", UserRole.User); // Normal user
+        var user1 = new User("Kacper", "Strzesniewski", "kacper.strzesniewski@gmail.com", "admin123", UserRole.Admin); // Admin
         
         AddUser(user1);
         AddUser(user2);
+    }
+    
+    public User? GetUserByEmail(string email)
+    {
+        return _users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+    }
+    
+    public bool IsEmailTaken(string email)
+    {
+        return _users.Any(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
     }
     
     public void AddBike(Bike bike) => _bikes.Add(bike);
