@@ -1,5 +1,6 @@
 using System;
-using System.Collections.ObjectModel; // Zmiana z List
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -14,8 +15,10 @@ public partial class Station : ObservableObject
     [NotifyPropertyChangedFor(nameof(Blocked))]
     [NotifyPropertyChangedFor(nameof(AvailableSlots))]
     private int _capacity;
+
     
     public bool Blocked => AvailableBikes.Count >= Capacity;
+    
     public int AvailableSlots => Capacity - AvailableBikes.Count;
     
     public ObservableCollection<Bike> AvailableBikes { get; private set; } = new();
