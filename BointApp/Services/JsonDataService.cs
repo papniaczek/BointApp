@@ -6,15 +6,11 @@ using BointApp.Models;
 using Newtonsoft.Json;
 
 namespace BointApp.Services;
-
-// Klasa do przechowywania wszystkich danych w jednym obiekcie
 public class DataContainer
 {
     public List<User> Users { get; set; } = new();
     public List<Bike> Bikes { get; set; } = new();
     public List<Station> Stations { get; set; } = new();
-    // Na razie pomijamy zapisywanie aktywnych wypożyczeń, aby uprościć proces.
-    // Można to dodać później.
 }
 
 public class JsonDataService

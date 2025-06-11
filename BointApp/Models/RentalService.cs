@@ -21,7 +21,6 @@ public class RentalService
         if (IsBikeCurrentlyRented(bike))
             throw new InvalidOperationException("This bike has already been rented");
         
-        // Używamy nowej, bezpiecznej metody z modelu Station
         startStation.TryRemoveBike(bike);
         
         var rental = new Rental(user, bike, startStation);

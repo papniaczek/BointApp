@@ -58,7 +58,6 @@ public class ListItemTemplate
         ModelType = modelType;
         Label = modelType.Name.Replace("PageViewModel", "");
 
-        // Zostawiamy bezpieczną wersję ładowania ikon
         if (Application.Current != null && Application.Current.TryFindResource(iconKey, out var res) && res is StreamGeometry geometry)
         {
             ListItemIcon = geometry;

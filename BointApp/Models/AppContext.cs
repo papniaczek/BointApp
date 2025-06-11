@@ -9,13 +9,11 @@ public partial class AppContext : ObservableObject
     private User? _currentUser;
 
     public DataStore DataStore { get; }
-    public RentalService RentalService { get; } // Dodajemy serwis wypożyczeń
+    public RentalService RentalService { get; }
 
     public AppContext()
     {
         DataStore = new DataStore();
-        RentalService = new RentalService(); // Tworzymy instancję
-        
-        
+        RentalService = new RentalService();
     }
 }

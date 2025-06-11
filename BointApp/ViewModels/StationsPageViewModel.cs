@@ -105,7 +105,7 @@ public partial class StationsPageViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Błąd wypożyczenia: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"{ex.Message}");
         }
     }
 }

@@ -29,19 +29,12 @@ public class DataStore
         var loadedData = _dataService.LoadData();
         if (loadedData != null)
         {
-            // Jeśli dane zostały wczytane z pliku
             Bikes = loadedData.Bikes;
             Users = loadedData.Users;
             Stations = loadedData.Stations;
-
-            // Ważne: Musimy ponownie powiązać rowery ze stacjami, bo referencje po deserializacji
-            // mogą wymagać odświeżenia.
-            // W tym przypadku Newtonsoft.Json z PreserveReferencesHandling powinien sobie z tym poradzić,
-            // więc dodatkowy kod nie jest konieczny.
         }
         else
         {
-            // Jeśli plik nie istnieje (pierwsze uruchomienie), tworzymy dane i zapisujemy je
             SeedInitialData();
             SaveChanges();
         }
