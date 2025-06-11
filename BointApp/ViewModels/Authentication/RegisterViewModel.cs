@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -22,6 +23,12 @@ public partial class RegisterViewModel : ViewModelBase
         ErrorMessage = null;
         IsSuccess = false;
 
+        if (string.IsNullOrWhiteSpace(Email) || !Regex.IsMatch(Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+        {
+            ErrorMessage = "E-mail incorrect.";
+            return;
+        }
+        
         if (Password != ConfirmPassword)
         {
             ErrorMessage = "Both passwords must match";

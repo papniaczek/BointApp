@@ -32,6 +32,11 @@ public partial class App : Application
             Context = new AppContext();
             DisableAvaloniaDataAnnotationValidation();
             
+            desktop.ShutdownRequested += (sender, args) =>
+            {
+                Context.DataStore.SaveChanges();
+            };
+            
             ShowAuthWindow();
         }
 
